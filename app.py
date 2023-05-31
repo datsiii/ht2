@@ -3,7 +3,7 @@ from flask import Flask, flash, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = r'C:\Users\dasha\PycharmProjects\help_for_tourist_2\uploads'
-ALLOWED_EXTENSIONS = {'png', '1.jpg', 'jpeg'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
 
@@ -15,7 +15,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/api/recognize', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         # проверим, передается ли в запросе файл
@@ -43,7 +43,7 @@ def upload_file():
     <!doctype html>
     <title>Загрузить новый файл</title>
     <h1>Загрузить новый файл</h1>
-    <form method=post enctype=multipart/form-data>
+    <form method=post action=/api/recognize enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>

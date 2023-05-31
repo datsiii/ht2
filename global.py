@@ -55,11 +55,26 @@ for name in filelist:
             x = preprocess_input(x)
             preds = model.predict(x)
             print('Predicted:', decode_predictions(preds, top=3)[0])
-            label[folderName] = decode_predictions(preds, top=1)[0]
+            _, category, probability = decode_predictions(preds, top=1)[0][0]
+            probability = float(probability)
+            label[folderName] = {category:probability}
             break
 
 with open("sample.json", "w") as outfile:
-    json_object = json.dumps(str(label), indent = 4)
+    #json_object = json.dumps(str(label), indent = 4)
+    json.dump(label, outfile)
 #print(json_object)
 
 
+def create_index(labels):
+    index = dict()
+    for landmark, value in labels.items():
+        for categ, probab in value.items():
+            if categ not in index or probab > index[categ][1]:
+                index[categ] = (landmark, probab)
+    return index
+
+
+with open("sample.json", "r") as infile:
+    result = json.load(infile)
+    print(create_index(result))
