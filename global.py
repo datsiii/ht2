@@ -8,6 +8,7 @@ from glob import glob
 import os
 import json
 
+#импорт resnet50, распознает объеткы как церковь и тд
 tf.keras.applications.resnet50.ResNet50(
     include_top=True,
     weights='imagenet',
@@ -18,12 +19,14 @@ tf.keras.applications.resnet50.ResNet50(
     #**kwargs
 )
 
+
 from tensorflow.keras.applications.resnet50 import ResNet50
 #from keras import ResNet50
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
 import numpy as np
 
+#обучаем
 model = ResNet50(weights='imagenet')
 
 #img_path = 'elephant.1.jpg'
@@ -31,13 +34,16 @@ model = ResNet50(weights='imagenet')
 for filename in glob('*.png'):
     process_image(cv2.imread(filename))
 '''
-
+#задаем путь к нашему датасету
 path = 'D:/projects/transfering_learning/images_folder/sources'
+#множетсво папок
 filelist = set()
+#
 for root, dirs, files in os.walk(path):
     for file in files:
         filelist.add(os.path.join(root))
 
+#создаем словарь label из category, probability
 label = dict()
 for name in filelist:
     #print(name)
@@ -49,7 +55,9 @@ for name in filelist:
             #print(img)
             #print(os.path.join(path, folderName, img))
             img_path = os.path.join(path,folderName, img)
+            #загружаем картинку с помощью встроенной функции keras
             img = image.load_img(img_path, target_size=(224, 224))
+            #превращаем фото в numpy массив для того чтобы подать на вход нейросети
             x = image.img_to_array(img)
             x = np.expand_dims(x, axis=0)
             x = preprocess_input(x)
@@ -60,12 +68,13 @@ for name in filelist:
             label[folderName] = {category:probability}
             break
 
+#превращаем полученный словарпь в json file
 with open("sample.json", "w") as outfile:
     #json_object = json.dumps(str(label), indent = 4)
     json.dump(label, outfile)
 #print(json_object)
 
-
+'''
 def create_index(labels):
     index = dict()
     for landmark, value in labels.items():
@@ -78,3 +87,4 @@ def create_index(labels):
 with open("sample.json", "r") as infile:
     result = json.load(infile)
     print(create_index(result))
+'''

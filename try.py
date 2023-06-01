@@ -1,4 +1,4 @@
-import os
+'''import os
 
 path = 'D:/projects/transfering_learning/images_folder/sources/Blagoveshchensky cathedral'
 fds = sorted(os.listdir(path))
@@ -22,3 +22,16 @@ for name in filelist:
     print(name)
     folderName = os.path.basename(name)
     print(folderName)
+'''
+import urllib.parse
+import base64
+
+base64_img = ""
+
+# Get image from POST request
+base64_img_bytes = base64_img.encode('utf-8')
+with open('decoded_image.jpeg', 'wb') as file_to_save:
+    # decoded_image_data = base64.decodebytes(base64_img_bytes)
+    decoded_image_data = urllib.parse.unquote(str(base64.decodebytes(base64_img_bytes)))
+    decoded_image_data = decoded_image_data.encode('utf-8')
+    file_to_save.write(decoded_image_data)
