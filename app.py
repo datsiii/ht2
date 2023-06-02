@@ -63,7 +63,7 @@ def handle_request():
 
 @app.route('/api/recognize', methods=['GET', 'POST'])
 def get_file():
-    base64_img = request.form["sample"]
+    base64_img = request.form["image"]
 
     # Get image from POST request
     with open('decoded_image.jpeg', 'wb') as file_to_save:
