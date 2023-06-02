@@ -97,7 +97,8 @@ def get_file():
         for landmark, value in labels.items():
             for categ, probab in value.items():
                 if category == categ:
-                    answer = (categ, probab)
+                    response = "landmark: " + str(landmark)
+                    return response
 
     '''
     base64_bytes = base64_message.encode('ascii')
