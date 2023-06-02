@@ -66,11 +66,11 @@ def get_file():
     base64_img = request.form["sample"]
 
     # Get image from POST request
-    base64_img_bytes = base64_img.encode('utf-8')
     with open('decoded_image.jpeg', 'wb') as file_to_save:
-        #decoded_image_data = base64.decodebytes(base64_img_bytes)
-        decoded_image_data = urllib.parse.unquote(str(base64.decodebytes(base64_img_bytes)))
-        decoded_image_data = decoded_image_data.encode('utf-8')
+        # decoded_image_data = base64.decodebytes(base64_img_bytes)
+        decoded_image_data = urllib.parse.unquote(base64_img)
+        base64_img_bytes = decoded_image_data.encode('utf-8')
+        decoded_image_data = base64.decodebytes(base64_img_bytes)
         file_to_save.write(decoded_image_data)
 
     # get image labels via ResNet

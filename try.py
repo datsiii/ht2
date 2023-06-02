@@ -26,12 +26,14 @@ for name in filelist:
 import urllib.parse
 import base64
 
-base64_img = ""
-
+with open('img.txt', 'r') as request:
+    base64_img = request.read()
+print(len(base64_img))
 # Get image from POST request
-base64_img_bytes = base64_img.encode('utf-8')
+#base64_img_bytes = base64_img.encode('utf-8')
 with open('decoded_image.jpeg', 'wb') as file_to_save:
     # decoded_image_data = base64.decodebytes(base64_img_bytes)
-    decoded_image_data = urllib.parse.unquote(str(base64.decodebytes(base64_img_bytes)))
-    decoded_image_data = decoded_image_data.encode('utf-8')
+    decoded_image_data = urllib.parse.unquote(base64_img)
+    base64_img_bytes = decoded_image_data.encode('utf-8')
+    decoded_image_data = base64.decodebytes(base64_img_bytes)
     file_to_save.write(decoded_image_data)
